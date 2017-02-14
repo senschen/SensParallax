@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <title>视差滚动插件</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            min-height: 3000px;
+        }
+        .bg{
+            background: url("http://cms.zbjimg.com/zt/2015index/demo/starry.jpg") repeat;
+            overflow: hidden;
+        }
+        .grid{
+            width: 1200px;
+            min-height: 3000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .circle-block-fast{
+            position: relative;
+        }
+        .circle-block-normal{
+            position: relative;
+        }
+        .circle{
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            transition: all 1s;
+        }
+
+        .circle-block-fast .circle{
+            width: 40px;
+            height: 40px;
+            animation: shine1 2s linear infinite;
+        }
+        .circle-block-fast .circle1{
+            left: -200px;
+            top: 400px;
+            background: #b0f1ff;
+        }
+        .circle-block-fast .circle2{
+            left: 0;
+            top: 1500px;
+            background: #c0d59c;
+        }
+        .circle-block-fast .circle3{
+            left: 200px;
+            top: 300px;
+            background: #c0b8a4;
+        }
+        .circle-block-fast .circle4{
+            left: 400px;
+            top: 1700px;
+            background: #f0ad4e;
+        }
+        .circle-block-fast .circle5{
+            left: 600px;
+            top: 700px;
+            background: #f0ad4e;
+        }
+        .circle-block-fast .circle6{
+            left: 800px;
+            top: 1300px;
+            background: #f0ad4e;
+        }
+        .circle-block-fast .circle7{
+            left: 1000px;
+            top: 700px;
+            background: #f0ad4e;
+        }
+        .circle-block-fast .circle8{
+            left: 1200px;
+            top: 1300px;
+            background: #f0ad4e;
+        }
+
+        .circle-block-normal .circle{
+            width: 20px;
+            height: 20px;
+            animation: shine2 1.5s linear infinite;
+        }
+        .circle-block-normal .circle1{
+            left: -300px;
+            top: 200px;
+            background: #b0f1ff;
+        }
+        .circle-block-normal .circle2{
+            left: -100px;
+            top: 700px;
+            background: #f0e2d3;
+        }
+        .circle-block-normal .circle3{
+            left: 100px;
+            top: 300px;
+            background: #c0b8a4;
+        }
+        .circle-block-normal .circle4{
+            left: 300px;
+            top: 800px;
+            background: #f0ad4e;
+        }
+        .circle-block-normal .circle5{
+            left: 500px;
+            top: 400px;
+            background: #f0f2e5;
+        }
+        .circle-block-normal .circle6{
+            left: 700px;
+            top: 500px;
+            background: #c1e2b3;
+        }
+        .circle-block-normal .circle7{
+            left: 900px;
+            top: 1100px;
+            background: #d0e9c6;
+        }
+        .circle-block-normal .circle8{
+            left: 1100px;
+            top: 700px;
+            background: #079aef;
+        }
+
+        .circle-block-slow{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("http://cms.zbjimg.com/zt/2015index/demo/dots3.png") repeat;
+            animation: shine3 1s linear infinite;
+        }
+
+        @keyframes shine1{
+            0% {opacity: 0.2;transform: scale(0.8);}
+            25% {opacity: 0.4;transform: scale(0.9);}
+            50% {opacity: 0.5;transform: scale(1);}
+            75% {opacity: 0.4;transform: scale(0.9);}
+            100%{opacity: 0.2;transform: scale(0.8);}
+        }
+        @keyframes shine2{
+            0% {opacity: 1;transform: scale(1);}
+            25% {opacity: 0.7;transform: scale(0.9);}
+            50% {opacity: 0.5;transform: scale(0.7);}
+            75% {opacity: 0.7;transform: scale(0.9);}
+            100%{opacity: 1;transform: scale(1);}
+        }
+        @keyframes shine3{
+            0% {opacity: 0.3}
+            25% {opacity: 0.5}
+            50% {opacity: 0.8}
+            75% {opacity: 0.5}
+            100%{opacity: 0.3}
+        }
+    </style>
+</head>
+
+<body>
+<div class="bg">
+    <div class="grid">
+        <div class="circle-block-fast">
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle4"></div>
+            <div class="circle circle5"></div>
+            <div class="circle circle6"></div>
+            <div class="circle circle7"></div>
+            <div class="circle circle8"></div>
+        </div>
+
+        <div class="circle-block-normal">
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle4"></div>
+            <div class="circle circle5"></div>
+            <div class="circle circle6"></div>
+            <div class="circle circle7"></div>
+            <div class="circle circle8"></div>
+        </div>
+
+        <div class="circle-block-slow">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="http://t5.zbjimg.com/c/base/jquery.js"></script>
+<script>
+    function SensParallax(option){
+        var defaultOption = {
+            ele : null,
+            isbackround : false,
+            opposite : false,
+            ratio : 0.5,
+            easing : 0
+        };
+        this.config = $.extend({}, defaultOption, option);
+    }
+    SensParallax.prototype.init = function(){
+        var that = this;
+        var scrollTop;
+        var left = that.config.ele.offset().left;
+        var top = that.config.ele.offset().top;
+        that.config.ele.css({'top':top,'left':left,'margin':'0'});
+        that.config.isbackround?that.config.ele.css('background-attachment','fixed'):that.config.ele.css('position','fixed');
+        that.config.easing?that.config.ele.css('transition','all ' + that.config.easing + 's ease'):that.config.ele.css('transition','none');
+        that.config.ele.attr('data-parallax',true);
+        that.config.ele.attr('data-top',that.config.ele.css('top').replace('px','').replace('auto','0'));
+        $(window).bind('scroll',myScroll);
+        function myScroll(){
+            scrollTop = (that.config.ele.attr('data-top') - 0) - that.config.ratio*$(window).scrollTop();
+            that.config.isbackround?that.config.ele.css('background-position-y',scrollTop):that.config.ele.css('top',scrollTop);
+        }
+    };
+
+    var circles1 = new SensParallax({
+        ele: $('.circle-block-fast'),
+        isbackround: false,
+        opposite: false,
+        ratio: 1,
+        easing: 0.3
+    });
+    circles1.init();
+
+    var circles2 = new SensParallax({
+        ele: $('.circle-block-normal'),
+        isbackround: false,
+        opposite: false,
+        ratio: 0.6,
+        easing: 0.3
+    });
+    circles2.init();
+
+    var circles3 = new SensParallax({
+        ele: $('.circle-block-slow'),
+        isbackround: false,
+        opposite: false,
+        ratio: 0.2,
+        easing: 0.3
+    });
+    circles3.init();
+
+    var bg = new SensParallax({
+        ele: $('.bg'),
+        isbackround: true,
+        opposite: false,
+        ratio: 0.1,
+        easing: 0.3
+    });
+    bg.init();
+
+    $(window).scroll(function(){
+        if($(window).scrollTop()>1000){
+            $('.circle-block-fast .circle').css({'':'','left':'1000px','top':'1800px','width':'0','height':'0'});
+            $('.circle-block-normal .circle').css({'':'','left':'1010px','top':'1300px','width':'0','height':'0'});
+        }
+    });
+</script>
+</body>
